@@ -812,7 +812,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8378133892868996057, guid: e899783e2cea7d048aee6c2ab2868c0c, type: 3}
       propertyPath: axesLagSpeed
-      value: 25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8378133892868996057, guid: e899783e2cea7d048aee6c2ab2868c0c, type: 3}
       propertyPath: smoothReturn
