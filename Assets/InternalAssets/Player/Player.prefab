@@ -214,10 +214,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 2
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 0.017872948}
 --- !u!143 &3257234721681022132
 CharacterController:
   m_ObjectHideFlags: 0
@@ -253,6 +253,7 @@ MonoBehaviour:
   bullet: {fileID: 6316893993725715225, guid: 65a6bcd4d2a49644da5a26f9ff885b2a, type: 3}
   characterController: {fileID: 3257234721681022132}
   maxBulletsCount: 10
+  NearEnemiesRadius: 3
 --- !u!114 &3257234721681022130
 MonoBehaviour:
   m_ObjectHideFlags: 0

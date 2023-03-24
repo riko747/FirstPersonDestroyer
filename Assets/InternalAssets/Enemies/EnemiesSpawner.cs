@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPersonExample.Scripts;
 using InternalAssets.Enemies.Blue;
 using InternalAssets.Enemies.Red;
 using UnityEngine;
@@ -16,32 +17,39 @@ namespace InternalAssets.Enemies
 
         private List<RedEnemy> _redEnemies = new();
         private List<BlueEnemy> _blueEnemies = new();
-
+        private FirstPersonController _firstPersonController;
         private float _spawnTime = 5;
+        
+        public List<RedEnemy> RedEnemies { get; set; }
 
         private void Start()
         {
+            _firstPersonController = FindObjectOfType<FirstPersonController>();
             StartCoroutine(SpawnEnemiesCoroutine());
         }
 
         private IEnumerator SpawnEnemiesCoroutine()
         {
+            const int redEnemiesCount = 4;
             while (true)
             {
-                if (_redEnemies.Count(b => !b.gameObject.activeSelf) > 0 && _redEnemies.Count != 0)
+                for (var i = 0; i != redEnemiesCount; i++)
                 {
-                    redEnemy = _redEnemies.FirstOrDefault(b => !b.gameObject.activeSelf && redEnemy);
-                    if (redEnemy)
+                    if (_redEnemies.Count(b => !b.gameObject.activeSelf) > 0 && _redEnemies.Count != 0)
                     {
+                        redEnemy = _redEnemies.FirstOrDefault(b => !b.gameObject.activeSelf && redEnemy);
+                        if (!redEnemy) continue;
                         redEnemy.gameObject.SetActive(true);
-                        redEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();;
+                        redEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();
+                        redEnemy.Attack();
                     }
-                }
-                else
-                {
-                    redEnemy = Instantiate(redEnemy, transform, true);
-                    redEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();;
-                    _redEnemies.Add(redEnemy);
+                    else
+                    {
+                        redEnemy = Instantiate(redEnemy, transform, true);
+                        redEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();
+                        _redEnemies.Add(redEnemy);
+                        redEnemy.Attack();
+                    }
                 }
 
                 if (_blueEnemies.Count(b => !b.gameObject.activeSelf) > 0 && _blueEnemies.Count != 0)
@@ -50,7 +58,8 @@ namespace InternalAssets.Enemies
                     if (blueEnemy)
                     {
                         blueEnemy.gameObject.SetActive(true);
-                        blueEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();;
+                        blueEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();
+                        blueEnemy.Attack();
                     }
                 }
                 else
@@ -58,8 +67,8 @@ namespace InternalAssets.Enemies
                     blueEnemy = Instantiate(blueEnemy, transform, true);
                     blueEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();;
                     _blueEnemies.Add(blueEnemy);
+                    blueEnemy.Attack();
                 }
-
                 _spawnTime = Mathf.Max(2f, _spawnTime - 0.5f);
                 yield return new WaitForSeconds(_spawnTime);
             }
@@ -71,15 +80,13 @@ namespace InternalAssets.Enemies
             {
                 var childGameObjects = arena.transform.Cast<Transform>()
                     .Select(child => child.gameObject);
-                var newX = Random.Range(-4.5f, 4.5f);
-                var newZ = Random.Range(-4.5f, 4.5f);
+                var newX = Random.Range(-3.5f, 3.5f);
+                var newZ = Random.Range(-3.5f, 3.5f);
                 var position = new Vector3(newX, 0.5f, newZ);
                 var positionIsOnAnyArenaColumns = childGameObjects.Any(child =>
                     Vector3.Distance(position, child.transform.position) < 1);
                 if (!positionIsOnAnyArenaColumns)
-                {
                     return position;
-                }
             }
         }
     }

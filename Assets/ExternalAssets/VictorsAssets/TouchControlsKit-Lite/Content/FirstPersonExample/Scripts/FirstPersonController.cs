@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using InternalAssets.Bullets;
+using InternalAssets.Enemies;
 using TouchControlsKit;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPersonExample.Scripts
 {
@@ -13,27 +15,36 @@ namespace ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPerson
         [SerializeField] private Transform cameraTransform;
         [SerializeField] private Bullet bullet;
         [SerializeField] private CharacterController characterController;
-        [SerializeField] private int maxBulletsCount;
-        
+
         private List<Bullet> _bullets = new();
-        
+
         private Transform _myTransform;
         private bool _bind;
         private float _rotation;
         private bool _prevGrounded;
         private float _weaponReadyTime;
         private bool _weaponReady = true;
+        private float _nearEnemiesRadius = 3;
+        public float NearEnemiesRadius
+        {
+            get => _nearEnemiesRadius;
+            set => _nearEnemiesRadius = Mathf.Clamp(value, 0.1f, 3);
+        }
 
-
-        private void Awake() => _myTransform = transform;
+        private void Awake()
+        {
+            _myTransform = transform;
+            NearEnemiesRadius = 3f;
+        }
 
         private void Update()
         {
+            if (!gameObject.activeSelf)
+                gameObject.SetActive(true);
             HandleWeaponReady();
             HandlePlayerInput();
+            HandlePlayerMovement();
         }
-
-        private void FixedUpdate() => HandlePlayerMovement();
 
         private void HandleWeaponReady()
         {
@@ -61,7 +72,7 @@ namespace ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPerson
             moveDirection += _myTransform.right * move.x;
 
             if (grounded)
-                moveDirection *= 7f;
+                moveDirection *= 3f;
 
             characterController.Move(moveDirection * Time.fixedDeltaTime);
 
@@ -97,9 +108,6 @@ namespace ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPerson
             }
             else
             {
-                if (_bullets.Count(b => b.gameObject.activeSelf) > maxBulletsCount)
-                    return;
-
                 bullet = Instantiate(bullet, bulletParentTransform, true);
                 _bullets.Add(bullet);
             }
@@ -117,13 +125,41 @@ namespace ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPerson
             StartCoroutine(DeactivateBullet(bullet.RigidBody));
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            var currentCollider = collision.collider;
+
+            if (currentCollider is not BoxCollider) return;
+            
+            gameObject.SetActive(false);
+            CheckPlayerPositionAndTeleport();
+        }
+        
+        private void CheckPlayerPositionAndTeleport()
+        {
+            const int attempts = 50;
+            var enemies = FindObjectsOfType<Enemy>().Where(enemy => enemy.gameObject.activeSelf).ToList();
+            Vector3 position;
+            for (var i = 0; i != attempts; i++)
+            {
+                var newX = Random.Range(-3f, 3f);
+                var newZ = Random.Range(-3f, 3f);
+                position = new Vector3(newX, 0.2f, newZ);
+                var positionIsNearAnyEnemy = enemies.Any(enemy => Vector3.Distance(position, enemy.transform.position) <= 3f);
+                if (positionIsNearAnyEnemy) continue;
+                transform.position = position;
+                break;
+            }
+            gameObject.SetActive(true);
+        }
+
         private IEnumerator DeactivateBullet(Rigidbody currentBullet)
         {
             yield return new WaitForSeconds(5f);
-            currentBullet.gameObject.SetActive(false);
             currentBullet.velocity = Vector3.zero;
             currentBullet.angularVelocity = Vector3.zero;
             currentBullet.transform.parent = bulletParentTransform;
+            currentBullet.gameObject.SetActive(false);
             yield return null;
         }
     }
