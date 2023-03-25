@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPersonExample.Scripts;
 using InternalAssets.Enemies.Blue;
 using InternalAssets.Enemies.Red;
 using UnityEngine;
@@ -17,14 +16,12 @@ namespace InternalAssets.Enemies
 
         private List<RedEnemy> _redEnemies = new();
         private List<BlueEnemy> _blueEnemies = new();
-        private FirstPersonController _firstPersonController;
         private float _spawnTime = 5;
         
         public List<RedEnemy> RedEnemies { get; set; }
 
         private void Start()
         {
-            _firstPersonController = FindObjectOfType<FirstPersonController>();
             StartCoroutine(SpawnEnemiesCoroutine());
         }
 
@@ -65,7 +62,7 @@ namespace InternalAssets.Enemies
                 else
                 {
                     blueEnemy = Instantiate(blueEnemy, transform, true);
-                    blueEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();;
+                    blueEnemy.transform.position = CalculateSpawnPositionAndSpawnEnemy();
                     _blueEnemies.Add(blueEnemy);
                     blueEnemy.Attack();
                 }

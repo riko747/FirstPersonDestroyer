@@ -43,6 +43,7 @@ namespace InternalAssets.UI.Scripts
             powerCount.text = _playerData.PowerPoints.ToString();
             scoreCount.text = _playerData.Score.ToString();
             ultimateButton.gameObject.SetActive(_playerData.PowerPoints == 100);
+
             if (_playerData.HealthPoints != 0) return;
             Time.timeScale = 0;
             restartScreen.SetActive(true);
@@ -54,6 +55,8 @@ namespace InternalAssets.UI.Scripts
             foreach (var enemy in enemies)
                 enemy.gameObject.SetActive(false);
             ultimateButton.gameObject.SetActive(false);
+            _playerData.PowerPoints = 0;
+            UpdateStats();
         }
 
         private void RestartGame() => SceneManager.LoadScene(0);

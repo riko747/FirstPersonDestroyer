@@ -15,11 +15,8 @@ namespace InternalAssets.Enemies.Blue
             _defaultBulletPosition = new Vector3(1, 0, 0);
         }
 
-        private void Update()
-        {
-            transform.position =
-                    Vector3.MoveTowards(transform.position, _playerData.transform.position, 1f * Time.deltaTime);
-        }
+        private void Update() => transform.position =
+            Vector3.MoveTowards(transform.position, _playerData.transform.position, 1f * Time.deltaTime);
 
         private void OnCollisionEnter(Collision collision)
         {

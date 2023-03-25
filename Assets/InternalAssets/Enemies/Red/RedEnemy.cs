@@ -22,18 +22,6 @@ namespace InternalAssets.Enemies.Red
 
         public void Attack() => StartCoroutine(AttackCoroutine());
 
-        IEnumerator AttackCoroutine()
-        {
-            yield return new WaitForSeconds(1);
-            _followPlayer = false;
-            var sequence = DOTween.Sequence();
-            var flyUp = transform.DOMoveY(CalculateHeight(), 4f);
-            sequence.Append(flyUp);
-            sequence.Play();
-            sequence.onComplete += () => _followPlayer = true;
-            yield return null;
-        }
-
         private void Update()
         {
             if (!_followPlayer) return;
@@ -72,6 +60,18 @@ namespace InternalAssets.Enemies.Red
             PlayerData.HealthPoints -= 15;
             UISystem.HandleHit();
             gameObject.SetActive(false);
+        }
+
+        private IEnumerator AttackCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+            _followPlayer = false;
+            var sequence = DOTween.Sequence();
+            var flyUp = transform.DOMoveY(CalculateHeight(), 4f);
+            sequence.Append(flyUp);
+            sequence.Play();
+            sequence.onComplete += () => _followPlayer = true;
+            yield return null;
         }
     }
 }

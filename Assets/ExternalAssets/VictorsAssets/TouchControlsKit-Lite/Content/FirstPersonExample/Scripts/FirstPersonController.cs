@@ -24,17 +24,10 @@ namespace ExternalAssets.VictorsAssets.TouchControlsKit_Lite.Content.FirstPerson
         private bool _prevGrounded;
         private float _weaponReadyTime;
         private bool _weaponReady = true;
-        private float _nearEnemiesRadius = 3;
-        public float NearEnemiesRadius
-        {
-            get => _nearEnemiesRadius;
-            set => _nearEnemiesRadius = Mathf.Clamp(value, 0.1f, 3);
-        }
 
         private void Awake()
         {
             _myTransform = transform;
-            NearEnemiesRadius = 3f;
         }
 
         private void Update()

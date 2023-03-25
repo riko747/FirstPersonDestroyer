@@ -23,12 +23,6 @@ namespace InternalAssets.Enemies.Blue
 
         public void Attack() => StartCoroutine(AttackCoroutine());
 
-        private IEnumerator AttackCoroutine()
-        {
-            yield return new WaitForSeconds(1);
-            enemyBullet.SetActive(true);
-        }
-
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.GetComponent<Bullet>() == null) return;
@@ -39,6 +33,12 @@ namespace InternalAssets.Enemies.Blue
             PlayerData.Score += 1;
             PlayerData.PowerPoints += 50;
             UISystem.HandleHit();
+        }
+        
+        private IEnumerator AttackCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+            enemyBullet.SetActive(true);
         }
         
         private IEnumerator ActivateBulletCoroutine()
