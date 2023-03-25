@@ -820,7 +820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8378133892868996057, guid: e899783e2cea7d048aee6c2ab2868c0c, type: 3}
       propertyPath: showTouchZone
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8538056950960869291, guid: e899783e2cea7d048aee6c2ab2868c0c, type: 3}
       propertyPath: axesLag
@@ -840,7 +840,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8538056950960869291, guid: e899783e2cea7d048aee6c2ab2868c0c, type: 3}
       propertyPath: showTouchZone
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e899783e2cea7d048aee6c2ab2868c0c, type: 3}
