@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using InternalAssets.Bullets;
 using InternalAssets.Player;
-using InternalAssets.UI.Scripts;
+using InternalAssets.UI;
 using UnityEngine;
 
 namespace InternalAssets.Enemies.Blue

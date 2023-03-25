@@ -3,7 +3,7 @@ using System.Linq;
 using DG.Tweening;
 using InternalAssets.Bullets;
 using InternalAssets.Player;
-using InternalAssets.UI.Scripts;
+using InternalAssets.UI;
 using UnityEngine;
 
 namespace InternalAssets.Enemies.Red

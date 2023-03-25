@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace InternalAssets.UI.Scripts
+namespace InternalAssets.UI
 {
     public class UISystem : MonoBehaviour
     {
